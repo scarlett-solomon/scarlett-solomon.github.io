@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scarlett's Portfolio</title>
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=cabinet-grotesk@400,500,700,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   REGISTERED CUSTOM PROPERTIES
+   ============================================================ */
+@property --w       { syntax: '<length>'; inherits: true;  initial-value: 240px; }
+@property --h       { syntax: '<length>'; inherits: true;  initial-value: 100px; }
+@property --d       { syntax: '<length>'; inherits: true;  initial-value: 90px;  }
+@property --x       { syntax: '<length>'; inherits: false; initial-value: 0px;   }
+@property --y       { syntax: '<length>'; inherits: false; initial-value: 0px;   }
+@property --cx      { syntax: '<length>'; inherits: false; initial-value: 0px;   }
+@property --rod     { syntax: '<length>'; inherits: true;  initial-value: 60px;  }
+@property --span    { syntax: '<length>'; inherits: true;  initial-value: 180px; }
+@property --fingerH { syntax: '<length>'; inherits: true;  initial-value: 56px;  }
+
+/* ============================================================
+   BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { height: 100%; margin: 0; }
+
+body {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #0f74e0;
+  color: #fff;
+  font-family: 'Cabinet Grotesk', ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+:root {
+  --ease: cubic-bezier(.55, 0, .25, 1);
+  --spring: cubic-bezier(.34, 1.45, .64, 1);
+  --yellow: #ffd23f;
+  --pad: 48px;
+}
+
+/* ============================================================
+   NAV BAR
+   ============================================================ */
+.nav {
+  position: relative;
+  z-index: 600;
+  flex: 0 0 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--pad);
+  background: #0f74e0;
+}
+
+.logo { display: block; line-height: 0; text-decoration: none; }
+.logo img {
+  display: block;
+  width: 112px;
+  height: auto;
+  filter: invert(1);
+  mix-blend-mode: screen;
+}
+.logo-fallback {
+  display: block;
+  font-family: 'Clash Display', sans-serif;
+  font-weight: 700;
+  font-size: 27px;
+  letter-spacing: -.03em;
+  color: #fff;
+  line-height: 1;
+}
+
+.nav-links {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 28px;
+}
+.nav-links button {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 6px 2px;
+  margin: 0;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: .01em;
+  color: #e6f3ff;
+  cursor: pointer;
+  transition: color .2s ease, transform .2s var(--ease);
+}
+.nav-links button:hover { color: #fff; transform: translateY(-2px); }
+.nav-links button:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 5px;
+  border-radius: 3px;
+  color: #fff;
+}
+
+.talk {
+  font-family: 'Clash Display', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  color: #fff;
+  text-decoration: none;
+  white-space: nowrap;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  transition: border-color .2s ease;
+}
+.talk:hover { border-bottom-color: rgba(255,255,255,.7); }
+.talk:focus-visible { outline: 2px solid var(--yellow); outline-offset: 5px; border-radius: 2px; }
+
+/* ============================================================
+   STAGE
+   ============================================================ */
+.stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(180deg, #0f74e0 0%, #1f93f2 55%, #46b8ff 100%);
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,.08) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.backdrop {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 58%;
+  z-index: 1;
+  margin: 0;
+  transform: translateY(-50%);
+  text-align: center;
+  white-space: nowrap;
+  font-family: 'Clash Display', sans-serif;
+  font-weight: 700;
+  font-size: clamp(90px, 19vw, 330px);
+  line-height: .78;
+  letter-spacing: -.04em;
+  color: rgba(255,255,255,.19);
+  pointer-events: none;
+  user-select: none;
+}
+
+.depot {
+  position: absolute;
+  left: var(--pad);
+  top: 22px;
+  z-index: 5;
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #d7ecff;
+  pointer-events: none;
+}
+.depot b { color: var(--yellow); font-weight: 800; }
+
+.hint {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  z-index: 500;
+  transform: translateX(-50%);
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.32);
+  background: rgba(255,255,255,.16);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: .22em;
+  color: #fff;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ============================================================
+   RAIL + CRANE
+   ============================================================ */
+.rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 88px;
+  height: 16px;
+  z-index: 200;
+  pointer-events: none;
+  background: linear-gradient(180deg, #ffffff 0%, #eef4fb 46%, #c7d7e9 100%);
+  box-shadow: 0 8px 22px rgba(9, 40, 90, .38), inset 0 1px 0 rgba(255,255,255,.9);
+}
+.rail::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 1px;
+  transform: translateY(-50%);
+  background-image: repeating-linear-gradient(90deg,
+    rgba(28, 70, 132, .34) 0 8px, transparent 8px 18px);
+}
+
+.crane {
+  position: absolute;
+  left: 0;
+  top: 96px;
+  width: 0;
+  height: 0;
+  z-index: 400;
+  transform: translateX(var(--cx));
+  pointer-events: none;
+  transition:
+    transform   var(--cdur, 0ms) var(--ease),
+    --rod       var(--cdur, 0ms) var(--ease),
+    --span      var(--cdur, 0ms) var(--ease),
+    --fingerH   var(--cdur, 0ms) var(--ease);
+}
+
+.carriage {
+  position: absolute;
+  left: -34px;
+  top: -17px;
+  width: 68px;
+  height: 34px;
+  border-radius: 11px;
+  background: linear-gradient(180deg, #ffffff 0%, #f3f8fe 48%, #d2dfee 100%);
+  box-shadow:
+    0 5px 12px rgba(9, 40, 90, .32),
+    inset 0 -2px 0 rgba(158, 184, 214, .55);
+}
+.carriage i {
+  position: absolute;
+  top: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #b6c7db;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.25);
+}
+.carriage i:nth-child(1) { left: 15px; }
+.carriage i:nth-child(2) { right: 15px; }
+
+.rod {
+  position: absolute;
+  left: -4px;
+  top: 17px;
+  width: 8px;
+  height: var(--rod);
+  border-radius: 4px;
+  background: linear-gradient(90deg, #b3c4d8 0%, #ffffff 34%, #ffffff 66%, #b3c4d8 100%);
+  box-shadow: 0 0 10px rgba(9, 40, 90, .14);
+}
+
+.grip {
+  position: absolute;
+  left: -36px;
+  top: calc(17px + var(--rod));
+  width: 72px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #ffffff 0%, #f1f7fd 52%, #ccdaea 100%);
+  box-shadow:
+    0 5px 12px rgba(9, 40, 90, .32),
+    inset 0 -2px 0 rgba(158, 184, 214, .55);
+}
+
+/* --- L-shaped fingers --- */
+.finger {
+  position: absolute;
+  top: 34px;
+  width: 0;
+  height: 0;
+  transform-origin: 0 0;
+  transform: rotate(0deg);
+  transition: transform 240ms var(--spring);
+}
+.finger.l { left: 6px; }
+.finger.r { left: 66px; }
+.crane.open .finger.l { transform: rotate(16deg); }
+.crane.open .finger.r { transform: rotate(-16deg); }
+
+.finger::before,
+.finger::after {
+  content: '';
+  position: absolute;
+  background: linear-gradient(180deg, #ffffff 0%, #eaf2fa 58%, #cbdaea 100%);
+  box-shadow: 0 2px 7px rgba(9, 40, 90, .22);
+}
+.finger::before {
+  top: -5px;
+  height: 10px;
+  border-radius: 5px;
+}
+.finger.l::before { right: 0; width: calc(var(--span) * 0.5); }
+.finger.r::before { left: 0;  width: calc(var(--span) * 0.5); }
+
+.finger::after {
+  top: -5px;
+  width: 10px;
+  height: var(--fingerH);
+  border-radius: 0 0 6px 6px;
+}
+.finger.l::after { left: calc(var(--span) * -0.5 - 5px); }
+.finger.r::after { left: calc(var(--span) *  0.5 - 5px); }
+
+/* ============================================================
+   CONTAINERS
+   ============================================================ */
+.container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  z-index: 10;
+  perspective: 1600px;
+  perspective-origin: 50% 50%;
+  transform: translate3d(var(--x), var(--y), 0);
+  transition:
+    transform var(--dur, 0ms) var(--ease),
+    --w       var(--dur, 0ms) var(--ease),
+    --h       var(--dur, 0ms) var(--ease),
+    --d       var(--dur, 0ms) var(--ease);
+}
+
+.lifter {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  transform: translateY(0);
+  transition: transform .35s var(--ease);
+}
+.container:not(.lifted):hover .lifter,
+.container:not(.lifted):focus-within .lifter { transform: translateY(-10px); }
+
+.box {
+  position: absolute;
+  left: calc(var(--w) * -0.5);
+  top: calc(var(--h) * -0.5);
+  width: var(--w);
+  height: var(--h);
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, -14deg)) rotateY(var(--ry, 0deg)) rotateZ(var(--rz, 0deg));
+  transition: transform var(--dur, 0ms) var(--ease);
+}
+
+.face {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background-color: var(--c);
+  border: 1px solid rgba(0, 0, 0, .34);
+  background-image: repeating-linear-gradient(90deg,
+    rgba(255,255,255,.15) 0 2px,
+    rgba(0,0,0,.11)        2px 4px,
+    rgba(255,255,255,0)    4px 11px);
+}
+
+.face.back {
+  width: var(--w);
+  height: var(--h);
+  transform: translate(-50%,-50%) rotateY(180deg) translateZ(calc(var(--d) * 0.5));
+}
+.face.left {
+  width: var(--d);
+  height: var(--h);
+  transform: translate(-50%,-50%) rotateY(-90deg) translateZ(calc(var(--w) * 0.5));
+  background-color: var(--dark);
+}
+.face.right {
+  width: var(--d);
+  height: var(--h);
+  transform: translate(-50%,-50%) rotateY(90deg) translateZ(calc(var(--w) * 0.5));
+  background-color: var(--dark);
+}
+.face.left::after,
+.face.right::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, .42);
+}
+.face.top {
+  width: var(--w);
+  height: var(--d);
+  transform: translate(-50%,-50%) rotateX(90deg) translateZ(calc(var(--h) * 0.5));
+}
+.face.bottom {
+  width: var(--w);
+  height: var(--d);
+  transform: translate(-50%,-50%) rotateX(-90deg) translateZ(calc(var(--h) * 0.5));
+}
+
+/* --- front (a real button) --- */
+.face.front {
+  display: block;
+  width: var(--w);
+  height: var(--h);
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: 1px solid rgba(0, 0, 0, .34);
+  transform: translate(-50%,-50%) translateZ(calc(var(--d) * 0.5));
+  transform-style: preserve-3d;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+.face.front:focus { outline: none; }
+.face.front:focus-visible .door {
+  outline: 3px solid var(--yellow);
+  outline-offset: -6px;
+}
+.container.open .face.front { pointer-events: none; }
+
+/* --- doors --- */
+.door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  display: block;
+  overflow: hidden;
+  background-color: var(--c);
+  background-image: repeating-linear-gradient(90deg,
+    rgba(255,255,255,.15) 0 2px,
+    rgba(0,0,0,.11)        2px 4px,
+    rgba(255,255,255,0)    4px 11px);
+  transition: transform var(--doorDur, 750ms) cubic-bezier(.34, 1.3, .64, 1);
+}
+.door.left  { left: 0;  transform-origin: left center;  }
+.door.right { right: 0; transform-origin: right center; }
+
+.container.open .door.left  { transform: rotateY(-122deg); }
+.container.open .door.right { transform: rotateY(122deg); }
+
+.door::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 24%;
+  background: var(--dark);
+  opacity: .82;
+}
+.door.left::before  { right: 0; }
+.door.right::before { left: 0; }
+
+.door .label {
+  position: absolute;
+  top: 0;
+  width: 200%;
+  padding: calc(var(--h) * .085) calc(var(--w) * .055);
+  font-family: 'Clash Display', sans-serif;
+  font-weight: 700;
+  font-size: calc(var(--h) * .28);
+  line-height: .84;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+  color: #fff;
+  text-align: left;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .28);
+}
+.door.left  .label { left: 0; }
+.door.right .label { left: -100%; }
+.door .label span { display: block; }
+
+.tag {
+  position: absolute;
+  right: 11%;
+  bottom: 9%;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: calc(var(--h) * .085);
+  letter-spacing: .16em;
+  color: rgba(255, 255, 255, .92);
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   INTERIOR + CONTENT
+   ============================================================ */
+.inner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--w);
+  height: var(--h);
+  transform: translate(-50%,-50%) translateZ(calc(var(--d) * -0.5 + 1px));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: .9em 1.1em;
+  border-radius: 2px;
+  background-color: #0a1836;
+  background-image: repeating-linear-gradient(90deg,
+    rgba(255,255,255,.055) 0 2px,
+    rgba(0,0,0,.18)        2px 4px,
+    rgba(0,0,0,0)          4px 16px);
+  font-size: calc(var(--w) * 0.038);
+  color: #dbe7f8;
+}
+
+.content {
+  width: 100%;
+  text-align: center;
+  opacity: 0;
+  transition: opacity .55s ease .28s;
+}
+.container.open .content { opacity: 1; }
+
+.kicker {
+  margin: 0 0 .85em;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: .5em;
+  font-weight: 800;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--c);
+}
+
+.content h2 {
+  margin: 0 0 .55em;
+  font-family: 'Clash Display', sans-serif;
+  font-weight: 700;
+  font-size: 1.55em;
+  line-height: 1;
+  letter-spacing: -.02em;
+  color: #fff;
+  outline: none;
+}
+.content h2 em {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.08em;
+  color: var(--c);
+}
+
+.content .body {
+  margin: 0;
+  font-size: .66em;
+  line-height: 1.55;
+  color: #c2d4ee;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: .55em;
+  text-align: left;
+}
+.list li { font-size: .62em; line-height: 1.3; }
+.list li strong {
+  display: block;
+  font-weight: 800;
+  font-size: 1.04em;
+  color: #fff;
+}
+.list li span { color: #9db3d4; }
+
+.chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45em;
+  justify-content: center;
+}
+.chips li {
+  font-size: .56em;
+  font-weight: 700;
+  padding: .55em .95em;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.24);
+  background: rgba(255,255,255,.07);
+  color: #eaf2ff;
+  white-space: nowrap;
+}
+
+.pill {
+  display: inline-block;
+  margin-top: .9em;
+  padding: .8em 1.35em;
+  border-radius: 999px;
+  background: var(--c);
+  border: 1px solid rgba(255,255,255,.28);
+  font-size: .58em;
+  font-weight: 800;
+  letter-spacing: .01em;
+  color: #fff;
+  text-decoration: none;
+  transition: transform .18s var(--ease), filter .18s ease;
+}
+.pill:hover { transform: translateY(-2px); filter: brightness(1.12); }
+.pill:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
+
+/* ============================================================
+   PHONES
+   ============================================================ */
+@media (max-width: 700px) {
+  :root { --pad: 14px; }
+
+  .nav {
+    flex: 0 0 auto;
+    height: auto;
+    flex-wrap: wrap;
+    padding: 12px var(--pad) 10px;
+    row-gap: 8px;
+  }
+  .logo img { width: 92px; }
+
+  .nav-links {
+    position: static;
+    transform: none;
+    order: 3;
+    flex-basis: 100%;
+    justify-content: center;
+    gap: 22px;
+    margin-top: 6px;
+  }
+  .nav-links button { font-size: 14px; }
+  .talk { font-size: 15px; }
+
+  .depot,
+  .hint { display: none; }
+
+  .rail { top: 60px; }
+  .crane { top: 68px; }
+
+  .inner { font-size: calc(var(--w) * 0.055); }
+  .door .label { font-size: calc(var(--h) * .25); }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: .001ms !important;
+    transition-delay: 0ms !important;
+    animation-duration: .001ms !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav">
+  <a class="logo" href="#stage" aria-label="Scarlett— home">
+    <img src="logo.png" alt="Scarlett" width="112">
+  </a>
+
+  <nav class="nav-links" aria-label="Sections">
+    <button type="button" data-pick="1">Work</button>
+    <button type="button" data-pick="2">About</button>
+    <button type="button" data-pick="3">Process</button>
+    <button type="button" data-pick="6">Contact</button>
+  </nav>
+
+  <a class="talk" href="mailto:scarlettsolomon30@gmail.com">Let's Talk ↗</a>
+</header>
+
+<!-- ===================== STAGE ===================== -->
+<main class="stage" id="stage">
+
+  <div class="grid" aria-hidden="true"></div>
+  <h1 class="backdrop" aria-hidden="true">PORTFOLIO</h1>
+
+  <p class="depot">Scarlett's Depot · <b>7 Containers</b> · 2026</p>
+
+  <!-- rail + claw -->
+  <div class="rail" aria-hidden="true"></div>
+  <div class="crane" id="crane" aria-hidden="true">
+    <div class="carriage"><i></i><i></i></div>
+    <div class="rod"></div>
+    <div class="grip">
+      <div class="finger l"></div>
+      <div class="finger r"></div>
+    </div>
+  </div>
+
+  <!-- ============ 01 · PORTFOLIO ============ -->
+  <div class="container" data-i="0" style="--c:#e5322d; --dark:#a91f1b;">
+    <div class="lifter"><div class="box">
+      <div class="face back"></div>
+      <div class="face left"></div>
+      <div class="face right"></div>
+      <div class="face top"></div>
+      <div class="face bottom"></div>
+      <div class="inner" inert>
+        <div class="content">
+          <p class="kicker">01 / Hello</p>
+          <h2>Hi, I'm <em>Scarlett</em></h2>
+          <p class="body">A multimedia and UI/UX designer building playful, purposeful digital experiences. Open a container to explore a piece of my work.</p>
+        </div>
+      </div>
+      <button class="face front" type="button" data-pick="0" aria-label="Open container 01, Portfolio — Hi, I'm Scarlett">
+        <span class="door left"><span class="label"><span>Port</span><span>folio</span></span></span>
+        <span class="door right"><span class="label"><span>Port</span><span>folio</span></span><span class="tag">Scarlett</span></span>
+      </button>
+    </div></div>
+  </div>
+
+  <!-- ============ 02 · THE WORK ============ -->
+  <div class="container" data-i="1" style="--c:#f26a1f; --dark:#b84a10;">
+    <div class="lifter"><div class="box">
+      <div class="face back"></div>
+      <div class="face left"></div>
+      <div class="face right"></div>
+      <div class="face top"></div>
+      <div class="face bottom"></div>
+      <div class="inner" inert>
+        <div class="content">
+          <p class="kicker">02 / Selected Work</p>
+          <h2>The <em>work</em>.</h2>
+          <ul class="list">
+            <li><strong>LockedIn</strong><span>All in one student app that keeps your uni life organised and delivers alerts directly to your WhatsApp.</span></li>
+            <li><strong>SodaPop</strong><span>A soda brand brought to life with animation and 3D objects.</span></li>
+            <li><strong>EcoStat</strong><span>Spin an interactive 3D globe, pick your city, and see how healthy it is to live in today.</span></li>
+          </ul>
+        </div>
+      </div>
+      <button class="face front" type="button" data-pick="1" aria-label="Open container 02, The Work — selected projects">
+        <span class="door left"><span class="label"><span>The</span><span>Work</span></span></span>
+        <span class="door right"><span class="label"><span>The</span><span>Work</span></span><span class="tag">02</span></span>
+      </button>
+    </div></div>
+  </div>
+
+  <!-- ============ 03 · ABOUT ME ============ -->
+  <div class="container" data-i="2" style="--c:#1d55d8; --dark:#123a9c;">
+    <div class="lifter"><div class="box">
+      <div class="face back"></div>
+      <div class="face left"></div>
+      <div class="face right"></div>
+      <div class="face top"></div>
+      <div class="face bottom"></div>
+      <div class="inner" inert>
+        <div class="content">
+          <p class="kicker">03 / About Me</p>
+          <h2>A little <em>about</em> me.</h2>
+          <p class="body">Trends move fast, and so do I. I design apps, graphics and campaigns that feel current, with AI tools in my workflow, creativity and people at the centre.</p>
+        </div>
+      </div>
+      <button class="face front" type="button" data-pick="2" aria-label="Open container 03, About Me">
+        <span class="door left"><span class="label"><span>About</span><span>Me</span></span></span>
+        <span class="door right"><span class="label"><span>About</span><span>Me</span></span><span class="tag">03</span></span>
+      </button>
+    </div></div>
+  </div>
+
+  <!-- ============ 04 · PROCESS ============ -->
+  <div class="container" data-i="3" style="--c:#f6b919; --dark:#c08a0a;">
+    <div class="lifter"><div class="box">
+      <div class="face back"></div>
+      <div class="face left"></div>
+      <div class="face right"></div>
+      <div class="face top"></div>
+      <div class="face bottom"></div>
+      <div class="inner" inert>
+        <div class="content">
+          <p class="kicker">04 / Process</p>
+          <h2>How I <em>build</em>.</h2>
+          <ul class="list">
+            <li><strong>01 Understand</strong><span>who it’s for and what they need</span></li>
+            <li><strong>02 Design</strong><span>sketch it, shape it, make it feel right</span></li>
+            <li><strong>03 Create &amp; launch</strong><span>build it, launch it, keep improving</span></li>
+          </ul>
+        </div>
+      </div>
+      <button class="face front" type="button" data-pick="3" aria-label="Open container 04, Process — how I build">
+        <span class="door left"><span class="label"><span>Pro</span><span>cess</span></span></span>
+        <span class="door right"><span class="label"><span>Pro</span><span>cess</span></span><span class="tag">04</span></span>
+      </button>
+    </div></div>
+  </div>
+
+  <!-- ============ 05 · TOOLKIT ============ -->
+  <div class="container" data-i="4" style="--c:#97a1ad; --dark:#6c7682;">
+    <div class="lifter"><div class="box">
+      <div class="face back"></div>
+      <div class="face left"></div>
+      <div class="face right"></div>
+      <div class="face top"></div>
+      <div class="face bottom"></div>
+      <div class="inner" inert>
+        <div class="content">
+          <p class="kicker">05 / Toolkit</p>
+          <h2>What's in the <em>box</em>.</h2>
+          <ul class="chips">
+            <li>Figma</li><li>Claude</li><li>Canva</li>
+            <li>HTML</li><li>Java</li><li>CapCut</li>
+          </ul>
+        </div>
+      </div>
+      <button class="face front" type="button" data-pick="4" aria-label="Open container 05, Toolkit — my tools">
+        <span class="door left"><span class="label"><span>Tool</span><span>Kit</span></span></span>
+        <span class="door right"><span class="label"><span>Tool</span><span>Kit</span></span><span class="tag">05</span></span>
+      </button>
+    </div></div>
+  </div>
+
+  <!-- ============ 06 · WHAT I DO ============ -->
+  <div class="container" data-i="5" style="--c:#e5322d; --dark:#a91f1b;">
+    <div class="lifter"><div class="box">
+      <div class="face back"></div>
+      <div class="face left"></div>
+      <div class="face right"></div>
+      <div class="face top"></div>
+      <div class="face bottom"></div>
+      <div class="inner" inert>
+        <div class="content">
+          <p class="kicker">06 / What I Do</p>
+          <h2>What I <em>do</em>.</h2>
+          <ul class="chips">
+            <li>Interaction design</li><li>Motion design</li>
+            <li>Presenting & pitching</li><li>UI / UX design</li>
+            <li>Video editing</li><li>AI-assisted content</li>
+          </ul>
+        </div>
+      </div>
+      <button class="face front" type="button" data-pick="5" aria-label="Open container 06, What I Do — services">
+        <span class="door left"><span class="label"><span>What</span><span>I Do</span></span></span>
+        <span class="door right"><span class="label"><span>What</span><span>I Do</span></span><span class="tag">06</span></span>
+      </button>
+    </div></div>
+  </div>
+
+  <!-- ============ 07 · SAY HELLO ============ -->
+  <div class="container" data-i="6" style="--c:#2546b8; --dark:#172f80;">
+    <div class="lifter"><div class="box">
+      <div class="face back"></div>
+      <div class="face left"></div>
+      <div class="face right"></div>
+      <div class="face top"></div>
+      <div class="face bottom"></div>
+      <div class="inner" inert>
+        <div class="content">
+          <p class="kicker">07 / Say Hello</p>
+          <h2>Got an <em>idea</em>?</h2>
+          <p class="body">Have a project in mind, a half-formed idea, or just want to say hi?</p>
+          <a class="pill" href="mailto:scarlettsolomon30@gmail.com">scarlettsolomon30@gmail.com ↗</a>
+        </div>
+      </div>
+      <button class="face front" type="button" data-pick="6" aria-label="Open container 07, Say Hello — contact">
+        <span class="door left"><span class="label"><span>Say</span><span>Hello</span></span></span>
+        <span class="door right"><span class="label"><span>Say</span><span>Hello</span></span><span class="tag">07</span></span>
+      </button>
+    </div></div>
+  </div>
+
+  <div class="hint" aria-hidden="true">PICK A CONTAINER ↓</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  const stage   = document.getElementById('stage');
+  const crane   = document.getElementById('crane');
+  const rail    = document.querySelector('.rail');
+  const boxes   = Array.from(document.querySelectorAll('.container'));
+  const logoImg = document.querySelector('.logo img');
+
+  const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* logo fallback */
+  if (logoImg) {
+    logoImg.addEventListener('error', () => {
+      const s = document.createElement('span');
+      s.className = 'logo-fallback';
+      s.textContent = 'Scarlett';
+      logoImg.replaceWith(s);
+    });
+  }
+
+  /* ---------------- pile data ---------------- */
+  const PILE = [
+    { x: .48, y: .66, px: .50, py: .64, rx: -14, ry: -24, rz:   6 },
+    { x: .13, y: .86, px: .17, py: .91, rx: -16, ry:  28, rz:  16 },
+    { x: .36, y: .90, px: .50, py: .93, rx: -12, ry: -20, rz: -10 },
+    { x: .60, y: .88, px: .84, py: .90, rx: -14, ry:  24, rz:  12 },
+    { x: .86, y: .86, px: .20, py: .77, rx: -16, ry: -30, rz: -14 },
+    { x: .25, y: .68, px: .52, py: .79, rx: -14, ry:  30, rz: -12 },
+    { x: .73, y: .68, px: .82, py: .76, rx: -14, ry: -26, rz:  16 }
+  ];
+
+  /* ---------------- measured layout ---------------- */
+  let stageW = 1, stageH = 1, railY = 96;
+  let pileW = 240, pileH = 103, pileD = 96;
+  let liftW = 468, liftH = 201, liftD = 187;
+  let isPhone = false;
+
+  const FINGER_GAP = 60; // distance between finger pivots
+
+  function measure() {
+    const r = stage.getBoundingClientRect();
+    stageW = r.width  || 1;
+    stageH = r.height || 1;
+    isPhone = window.innerWidth <= 700;
+
+    railY = rail.offsetTop + rail.offsetHeight / 2;
+
+    pileW = isPhone
+      ? Math.min(170, stageW * 0.38)
+      : Math.min(310, Math.max(200, stageW * 0.20));
+    pileH = pileW * (isPhone ? 0.60 : 0.43);
+    pileD = pileW * (isPhone ? 0.56 : 0.40);
+
+    const grow = isPhone ? 2.4 : 1.95;
+    liftW = Math.min(pileW * grow, stageW - (isPhone ? 28 : 120));
+    const k = liftW / pileW;
+    liftH = pileH * k;
+    liftD = pileD * k;
+  }
+
+  function pileSpot(i) {
+    const p = PILE[i];
+    const fx = isPhone ? p.px : p.x;
+    const fy = isPhone ? p.py : p.y;
+
+    let x = fx * stageW;
+    let y = fy * stageH;
+
+    const hw = pileW * 0.5 + 8;
+    x = Math.min(Math.max(x, hw), stageW - hw);
+    y = Math.min(y, stageH - pileH * 0.5 - 6);
+
+    return { x, y, rx: p.rx, ry: p.ry, rz: p.rz };
+  }
+
+  function liftSpot() {
+    const topY = Math.max(railY + 78, stageH * 0.30);
+    return { x: stageW / 2, y: topY + liftH / 2, topY };
+  }
+
+  const spanFor = (w) => Math.max(80, w * 1.06 - FINGER_GAP);
+
+  /* ---------------- writers ---------------- */
+  function setBox(el, o) {
+    const s = el.style;
+    s.setProperty('--dur', (RM ? 0 : (o.dur || 0)) + 'ms');
+    s.setProperty('--x', o.x + 'px');
+    s.setProperty('--y', o.y + 'px');
+    s.setProperty('--w', o.w + 'px');
+    s.setProperty('--h', o.h + 'px');
+    s.setProperty('--d', o.d + 'px');
+    s.setProperty('--rx', o.rx + 'deg');
+    s.setProperty('--ry', o.ry + 'deg');
+    s.setProperty('--rz', o.rz + 'deg');
+  }
+
+  const craneState = { x: 0, rod: 60, span: 180, fingerH: 56 };
+
+  function setCrane(o) {
+    Object.assign(craneState, o);
+    const d = RM ? 0 : (o.dur || 0);
+    crane.style.setProperty('--cdur', d + 'ms');
+    crane.style.setProperty('--cx', craneState.x + 'px');
+    crane.style.setProperty('--rod', craneState.rod + 'px');
+    crane.style.setProperty('--span', craneState.span + 'px');
+    crane.style.setProperty('--fingerH', craneState.fingerH + 'px');
+  }
+
+  const rodForTop = (topY) => topY - railY - 51;   // grip bottom sits at topY
+  const openFingers  = () => crane.classList.add('open');
+  const closeFingers = () => crane.classList.remove('open');
+
+  function setDoors(el, open, dur) {
+    el.style.setProperty('--doorDur', (RM ? 0 : dur) + 'ms');
+    el.classList.toggle('open', open);
+  }
+
+  /* ---------------- layout ---------------- */
+  function relayout() {
+    measure();
+
+    boxes.forEach((el, i) => {
+      if (el === current) {
+        const L = liftSpot();
+        setBox(el, {
+          x: L.x, y: L.y, w: liftW, h: liftH, d: liftD,
+          rx: -7, ry: -11, rz: 0, dur: 0
+        });
+        el.style.zIndex = 300;
+        setCrane({
+          x: L.x, rod: rodForTop(L.topY),
+          span: spanFor(liftW), fingerH: liftH * 0.55, dur: 0
+        });
+      } else {
+        const s = pileSpot(i);
+        setBox(el, {
+          x: s.x, y: s.y, w: pileW, h: pileH, d: pileD,
+          rx: s.rx, ry: s.ry, rz: s.rz, dur: 0
+        });
+        el.style.zIndex = 10 + Math.round(s.y / 10);
+      }
+    });
+
+    if (!current) {
+      setCrane({
+        x: stageW / 2, rod: 60,
+        span: spanFor(pileW), fingerH: pileH * 0.55, dur: 0
+      });
+    }
+  }
+
+  /* ---------------- sequence engine ---------------- */
+  let current = null;
+  let busy = false;
+  let pending = null;
+
+  const wait = (ms) => new Promise(r => setTimeout(r, RM ? 0 : ms));
+
+  async function runPick(i) {
+    const el = boxes[i];
+
+    /* 1 — put back what the claw holds */
+    if (current) {
+      const cur = current;
+
+      setDoors(cur, false, 450);
+      await wait(450);
+
+      const s = pileSpot(+cur.dataset.i);
+
+      setBox(cur, {
+        x: s.x, y: s.y, w: pileW, h: pileH, d: pileD,
+        rx: s.rx, ry: s.ry, rz: s.rz, dur: 850
+      });
+      setCrane({
+        x: s.x,
+        rod: rodForTop(s.y - pileH / 2),
+        span: spanFor(pileW),
+        fingerH: pileH * 0.55,
+        dur: 850
+      });
+      await wait(850);
+
+      openFingers();
+      await wait(260);
+
+      cur.classList.remove('open', 'lifted');
+      cur.style.zIndex = 10 + Math.round(s.y / 10);
+      const inner = cur.querySelector('.inner');
+      if (inner) inner.setAttribute('inert', '');
+      current = null;
+
+      setCrane({ rod: 60, dur: 420 });
+      await wait(420);
+    }
+
+    /* 2 — travel to the chosen container */
+    const s = pileSpot(i);
+    openFingers();
+    setCrane({
+      x: s.x,
+      rod: 60,
+      span: spanFor(pileW),
+      fingerH: pileH * 0.55,
+      dur: 750
+    });
+    await wait(750);
+
+    /* 3 — drop down */
+    const grabTop = s.y - pileH / 2;
+    setCrane({ rod: rodForTop(grabTop), dur: 560 });
+    await wait(560);
+
+    /* 4 — grip */
+    closeFingers();
+    await wait(240);
+
+    /* 5 — lift to top centre and grow */
+    const L = liftSpot();
+    setCrane({
+      x: L.x,
+      rod: rodForTop(L.topY),
+      span: spanFor(liftW),
+      fingerH: liftH * 0.55,
+      dur: 950
+    });
+    setBox(el, {
+      x: L.x, y: L.y,
+      w: liftW, h: liftH, d: liftD,
+      rx: -7, ry: -11, rz: 0,
+      dur: 950
+    });
+    await wait(950);
+
+    current = el;
+    el.classList.add('lifted');
+    el.style.zIndex = 300;
+
+    const inner = el.querySelector('.inner');
+    if (inner) inner.removeAttribute('inert');
+
+    /* 6 — doors open */
+    setDoors(el, true, 750);
+    await wait(790);
+
+    /* 7 — focus the heading */
+    const h = el.querySelector('.content h2');
+    if (h) {
+      h.setAttribute('tabindex', '-1');
+      h.focus({ preventScroll: true });
+    }
+  }
+
+  function requestPick(i) {
+    if (busy) { pending = i; return; }
+    busy = true;
+    runPick(i).finally(() => {
+      busy = false;
+      if (pending !== null) {
+        const next = pending;
+        pending = null;
+        requestPick(next);
+      }
+    });
+  }
+
+  /* ---------------- wiring ---------------- */
+  document.querySelectorAll('[data-pick]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      requestPick(Number(btn.dataset.pick));
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      requestPick(0);
+    }
+  });
+
+  let rafId = 0;
+  window.addEventListener('resize', () => {
+    cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(relayout);
+  });
+
+  /* ---------------- boot ---------------- */
+  relayout();
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(relayout);
+  }
+
+  setTimeout(() => requestPick(0), 500);
+})();
+</script>
+</body>
+</html>
