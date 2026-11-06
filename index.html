@@ -10,7 +10,7 @@
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=cabinet-grotesk@400,500,700,800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
 
-<style>
+<style>   
 /* ============================================================
    REGISTERED CUSTOM PROPERTIES
    ============================================================ */
@@ -53,7 +53,8 @@ body {
 /* ============================================================
    NAV BAR
    ============================================================ */
-.nav {
+  
+   .nav {
   position: relative;
   z-index: 600;
   flex: 0 0 72px;
@@ -126,6 +127,114 @@ body {
 }
 .talk:hover { border-bottom-color: rgba(255,255,255,.7); }
 .talk:focus-visible { outline: 2px solid var(--yellow); outline-offset: 5px; border-radius: 2px; }
+
+/* ===== Dropdown styles (click version) ===== */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 180px;
+  background: #0f74e0;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  padding: 8px 0;
+  z-index: 700;
+  margin-top: 8px;
+}
+
+.dropdown.open .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px 18px;
+  color: #e6f3ff;
+  text-decoration: none;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background .15s ease, color .15s ease;
+}
+
+.dropdown-content a:hover {
+  background: rgba(255,255,255,.12);
+  color: #fff;
+}
+
+.dropdown-content a span {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+/* ===== Sub-dropdown (LockedIn) ===== */
+.dropdown-content .sub-toggle {
+  display: block;
+  width: 100%;
+  padding: 10px 18px;
+  text-align: left;
+  color: #e6f3ff;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: normal;
+  cursor: pointer;
+  position: relative;
+  transition: background .15s ease, color .15s ease;
+}
+
+.dropdown-content .sub-toggle:hover {
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  transform: none;
+}
+
+.dropdown-content .sub-toggle .sub-note {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+.dropdown-content .sub-toggle .caret {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  transition: transform .2s ease;
+}
+
+.submenu.open .sub-toggle .caret {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.submenu-content {
+  display: none;
+  background: rgba(0,0,0,.14);
+  padding: 4px 0;
+}
+
+.submenu.open .submenu-content {
+  display: block;
+}
+
+.dropdown-content .submenu-content a {
+  padding: 9px 18px 9px 32px;
+  font-size: 13px;
+}
 
 /* ============================================================
    STAGE
@@ -683,6 +792,20 @@ body {
     animation-duration: .001ms !important;
   }
 }
+
+/* ============================================================
+   LINK FIX: make links clickable when a container is open
+   ============================================================ */
+.container.open .face { pointer-events: none; }
+.container.open .inner { pointer-events: auto; }
+.container.open .inner a { position: relative; pointer-events: auto; }
+
+/* underline so they read as links */
+.list li strong a {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 </style>
 </head>
 
@@ -695,7 +818,43 @@ body {
   </a>
 
   <nav class="nav-links" aria-label="Sections">
-    <button type="button" data-pick="1">Work</button>
+    <!-- Dropdown for Work -->
+    <div class="dropdown" id="workDropdown">
+      <button type="button" id="workBtn">Work ▾</button>
+      <div class="dropdown-content">
+
+        <!-- LockedIn sub-dropdown -->
+        <div class="submenu" id="lockedInSub">
+          <button type="button" class="sub-toggle" id="lockedInBtn" aria-expanded="false">
+            LockedIn
+            <span class="sub-note">Student App</span>
+            <span class="caret">▸</span>
+          </button>
+          <div class="submenu-content">
+            <a href="https://locked-in-self-psi.vercel.app/" target="_blank" rel="noopener noreferrer">
+              Website
+            </a>
+            <a href="https://drive.google.com/file/d/1sBI1EY7fcisHZxV_Ku78gCVm7FWHg0Vc/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+              Demo Video
+            </a>
+          </div>
+        </div>
+
+        <a href="https://soda-pop-fawn.vercel.app/" target="_blank" rel="noopener noreferrer">
+          SodaPop
+          <span>3D Branding</span>
+        </a>
+        <a href="https://ecostatsmusgrave.netlify.app/" target="_blank" rel="noopener noreferrer">
+          EcoStat
+          <span>3D Globe</span>
+        </a>
+        <a href="https://drive.google.com/drive/folders/1xrlsYnmjWuq6fDmylyZBp7S6T68uux4a?usp=sharing" target="_blank" rel="noopener noreferrer">
+          Content Creation
+          <span>A little bit of what I've made</span>
+        </a>
+      </div>
+    </div>
+
     <button type="button" data-pick="2">About</button>
     <button type="button" data-pick="3">Process</button>
     <button type="button" data-pick="6">Contact</button>
@@ -755,13 +914,14 @@ body {
       <div class="face bottom"></div>
       <div class="inner" inert>
         <div class="content">
-          <p class="kicker">02 / Selected Work</p>
-          <h2>The <em>work</em>.</h2>
+          <h2>The <em>work</em>.</h2> 
+           <p class="kicker">Click the drop down at the top to see the work</p>
           <ul class="list">
            <li><strong><a href="https://locked-in-self-psi.vercel.app/" target="_blank" rel="noopener noreferrer">LockedIn</a></strong><span>All in one student app that keeps your uni life organised and delivers alerts directly to your WhatsApp (prototype).</span></li>
            <li><strong><a href="https://soda-pop-fawn.vercel.app/" target="_blank" rel="noopener noreferrer">SodaPop</a></strong><span>A soda brand brought to life with animation and 3D objects.</span></li>
            <li><strong><a href="https://ecostatsmusgrave.netlify.app/" target="_blank" rel="noopener noreferrer">EcoStat</a></strong><span>Spin an interactive 3D globe, pick your city, and see how healthy it is to live in today.</span></li>
-          </ul> 
+          
+          </ul>
         </div>
       </div>
       <button class="face front" type="button" data-pick="1" aria-label="Open container 02, The Work — selected projects">
@@ -1178,6 +1338,51 @@ body {
       requestPick(0);
     }
   });
+
+  /* ===== Click dropdown for Work ===== */
+  const workDropdown = document.getElementById('workDropdown');
+  const workBtn = document.getElementById('workBtn');
+
+  if (workBtn && workDropdown) {
+    workBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      workDropdown.classList.toggle('open');
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!workDropdown.contains(e.target)) {
+        workDropdown.classList.remove('open');
+      }
+    });
+
+    // Close when a link inside is clicked
+    workDropdown.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        workDropdown.classList.remove('open');
+      });
+    });
+  }
+
+  /* ===== LockedIn sub-dropdown ===== */
+  const lockedInSub = document.getElementById('lockedInSub');
+  const lockedInBtn = document.getElementById('lockedInBtn');
+
+  if (lockedInSub && lockedInBtn) {
+    lockedInBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = lockedInSub.classList.toggle('open');
+      lockedInBtn.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    // Reset the sub-menu whenever the Work dropdown closes
+    document.addEventListener('click', (e) => {
+      if (!workDropdown.classList.contains('open')) {
+        lockedInSub.classList.remove('open');
+        lockedInBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
 
   let rafId = 0;
   window.addEventListener('resize', () => {
